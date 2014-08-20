@@ -1,0 +1,10 @@
+recursive-include TEMPLATE_PyPROJECT *
+include CHANGELOG.rst
+include LICENSE.rst
+include MANIFEST.in
+include README.rst
+include requirements.txt
+include setup.cfg
+include setup.py
+include versioneer.py
+include TEMPLATE_PyPROJECT/_version.py

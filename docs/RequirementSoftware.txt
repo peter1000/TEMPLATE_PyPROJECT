@@ -1,0 +1,11 @@
+# keep this re-installation
+Cython
+Nose
+coverage
+PSphinxTheme
+
+flake8
+pylint
+psutil
+pip
+ReText
