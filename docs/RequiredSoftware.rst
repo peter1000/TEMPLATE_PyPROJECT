@@ -12,7 +12,6 @@ Required Software
 
 .. note:: other versions might also work but this are the once used for development
 
-
 - Python >= 3.4.1 (3.4.1+  compiled Aug  6 2014)
 
    - `<http://www.python.org/>`_
@@ -21,7 +20,7 @@ Required Software
 
    - `<http://pythonhosted.org/setuptools/>`_
 
-- Cython >= 0.20.2
+- Cython >= 0.21b1  (compiled from github 20140821)
 
    - `<http://cython.org/>`_
 

@@ -13,6 +13,7 @@ from inspect import (
 )
 from shutil import rmtree
 from os import (
+   listdir,
    remove as os_remove,
    walk as os_walk,
 )
@@ -31,14 +32,16 @@ from sys import (
    version_info as sys_version_info,
 )
 
-from Cython.Build import cythonize
-from Cython.Compiler.Options import parse_directive_list
 from setuptools import (
    Command,
    Extension,
    find_packages,
    setup,
 )
+# Warning : do not import the distutils extension before setuptools It does break the cythonize function calls
+# https://github.com/enthought/pyql/blob/master/setup.py
+from Cython.Build import cythonize
+from Cython.Compiler.Options import parse_directive_list
 
 import versioneer
 
@@ -52,12 +55,13 @@ versioneer.parentdir_prefix = 'TEMPLATE_PyPROJECT-'  # dirname like 'TEMPLATE_Py
 _version = versioneer.get_version()
 
 SCRIPT_PATH = dirname(abspath(getfile(currentframe())))
-ROOT_PACKAGE_NAME = 'TEMPLATE_PyPROJECT'
-ROOT_PACKAGE_PATH = path_join(dirname(SCRIPT_PATH), ROOT_PACKAGE_NAME)
+PACKAGE_NAME = 'TEMPLATE_PyPROJECT'
+ROOT_PACKAGE_PATH = path_join(dirname(SCRIPT_PATH), PACKAGE_NAME)
+MAIN_PACKAGE_PATH = path_join(ROOT_PACKAGE_PATH, PACKAGE_NAME)
 
 from TEMPLATE_PyPROJECT import TESTED_HOST_OS
 
-if sys_version_info[:2] < (3, 4) or sys_platform == 'win32':
+if sys_version_info[:2] < (3, 4) or 'linux' not in sys_platform:
    print('''
 
 TEMPLATE_PyPROJECT is only tested with Python 3.4.1 or higher:\n  current python version: {0:d}.{1:d}\n\n
@@ -76,7 +80,6 @@ TESTED_HOST_OS you specified an untested option: <{}>\n\n
 
 '''.format(option_temp))
 
-
 # ===========================================================================================================================
 # helper classes, functions
 # ===========================================================================================================================
@@ -93,9 +96,8 @@ def read_requires(filename):
    return requires
 
 
-# noinspection PyUnusedLocal
-def no_cythonize(extensions, **_ignore):
-   """ Helper: taken from https://github.com/ryanvolz/radarmodel(Copyright (c) 2014, Ryan Volz)
+def no_cythonize(extensions):
+   """ Helper: based on https://github.com/ryanvolz/radarmodel(Copyright (c) 2014, Ryan Volz)
    """
    dupextensions = deepcopy(extensions)
    for extension in dupextensions:
@@ -151,7 +153,8 @@ class CleanCommand(Command):
                     and DIRS: `*.__pycache__,  *.egg-info`'''
    user_options = [
       ('all', None,
-         'remove also: DIRS: `build, dist, cover, *._pyxbld` and FILES: `*.so, *.c` and cython annotate html'
+         '''remove also: DIRS: `build, dist, cover, *._pyxbld` and
+            FILES in MAIN_PACKAGE_PATH: `*.so, *.c` and cython annotate html'''
       ),
       ('onlydocs', None,
          'remove ONLY: `build/sphinx`'
@@ -169,7 +172,9 @@ class CleanCommand(Command):
 
    def run(self):
       need_normal_clean = True
-      exclude_files = ['utils.c']  # TODO
+      exclude_files = [
+         'utils.c',
+      ]  # TODO
       remove_files = []
       remove_dirs = []
 
@@ -180,15 +185,21 @@ class CleanCommand(Command):
          if path_exists(dir_path):
             remove_dirs.append(dir_path)
 
-      # remove also: DIRS: `build, dist, cover, *.egg-info, *._pyxbld` and FILES: `*.so, *.c` and cython annotate html
+      # remove also: DIRS: `build, dist, cover, *.egg-info, *._pyxbld`
+      # and FILES in MAIN_PACKAGE_PATH: `*.so, *.c` and cython annotate html
       if self.all:
          need_normal_clean = True
          for dir_ in {'build', 'dist', 'cover'}:
             dir_path = path_join(ROOT_PACKAGE_PATH, dir_)
             if path_exists(dir_path):
                remove_dirs.append(dir_path)
-
          for root, dirs, files in os_walk(ROOT_PACKAGE_PATH):
+            for dir_ in dirs:
+               if '_pyxbld' in dir_:
+                  remove_dirs.append(path_join(root, dir_))
+
+         # remove FILES in MAIN_PACKAGE_PATH: `*.so, *.c` and cython annotate html
+         for root, dirs, files in os_walk(MAIN_PACKAGE_PATH):
             for file_ in files:
                if file_ not in exclude_files:
                   if path_splitext(file_)[-1] in {'.so', '.c'}:
@@ -200,10 +211,6 @@ class CleanCommand(Command):
                      check_html_path = path_join(root, tmp_name + '.html')
                      if isfile(check_html_path):
                         remove_files.append(check_html_path)
-
-            for dir_ in dirs:
-               if '_pyxbld' in dir_:
-                  remove_dirs.append(path_join(root, dir_))
 
       # do the general clean
       if need_normal_clean:
@@ -254,8 +261,64 @@ def check_release():
             )
 
 
-# some linux distros seem to require it
-libraries = ['m']
+def add_ext_cython_modules(_cython_extension_names):
+   _ext_cython_modules = []
+   for _ext_cython_name, _sources in _cython_extension_names.items():
+      ext_cython = Extension(
+         _ext_cython_name,
+         sources=_sources,
+         include_dirs=INCLUDE_DIRS,
+         library_dirs=LIBRARY_DIRS,
+         libraries=DEPENDING_LIB_NAMES,
+         extra_compile_args=['-O3', '-ffast-math', '-fopenmp'],
+         extra_link_args=['-O3', '-ffast-math', '-fopenmp'],
+      )
+      _ext_cython_modules.append(ext_cython)
+   return _ext_cython_modules
+
+
+# ===========================================================================================================================
+# LIBRARY setup
+# ===========================================================================================================================
+
+# the underlying C libraries name
+DEPENDING_LIB_NAMES = [
+   # e.g.: 'calg',
+]
+
+SRC_LIBS_CODE_INCLUDE = [
+   # path_join(SCRIPT_PATH, 'src_libs')
+]
+
+# Put SRC_LIBS_CODE_INCLUDE first
+INCLUDE_DIRS = SRC_LIBS_CODE_INCLUDE + [
+   '/usr/include',
+   '/usr/local/include',
+   '/opt/include',
+   '/opt/local/include',
+]
+LIBRARY_DIRS = [
+   '/usr/lib',
+   '/usr/local/lib',
+   '/opt/lib',
+   '/opt/local/lib',
+]
+
+# Check any required library
+if DEPENDING_LIB_NAMES:
+   for depending_lib_name in DEPENDING_LIB_NAMES:
+      for lib_search_dir in LIBRARY_DIRS:
+         try:
+            files = listdir(lib_search_dir)
+            if any(depending_lib_name in file_ for file_ in files):
+               break
+         except OSError:
+            pass
+      else:
+         sys_exit('\n\nERROR: Cannot find library: <{}>\n\n LIBRARY_DIRS: <{}>'.format(depending_lib_name, LIBRARY_DIRS))
+
+# some linux distros seem to require it: 'm'
+DEPENDING_LIB_NAMES.extend(['m'])
 
 
 # ===========================================================================================================================
@@ -265,19 +328,14 @@ libraries = ['m']
 ext_modules = []
 
 # cython extension modules  !! TODO
-cython_include_path = []  # include for cimport, different from compile include
-ext_cython_modules = []
+cython_include_path = []  # include for cimport, different from compile include: see: CreateCythonCommand.cythonize
+# Cython extension names
+cython_extension_name_sources = { # TODO
+   'TEMPLATE_PyPROJECT.utils': ['TEMPLATE_PyPROJECT/cython/utils.pyx'],
+}
 
-ext_cython_modules.extend([  # TODO
-   Extension(
-      'TEMPLATE_PyPROJECT.utils',
-      sources=['TEMPLATE_PyPROJECT/cython/utils.pyx'],
-      include_dirs=[],
-      libraries=libraries,
-      extra_compile_args=['-O3', '-ffast-math', '-fopenmp'],
-      extra_link_args=['-O3', '-ffast-math', '-fopenmp'],
-   ),
-])
+ext_cython_modules = add_ext_cython_modules(cython_extension_name_sources)
+
 
 # ===========================================================================================================================
 # Do the rest of the configuration
@@ -313,7 +371,7 @@ setup(
    platforms=['Linux'],
    cmdclass=cmdclass,
    ext_modules=ext_modules,
-   description="TEMPLATE__OneLine_PyPROJECT_Description",  # use double quotes for this one
+   description="TEMPLATE__OneLine_PyPROJECT_Description",
    long_description=open('README.rst', 'r').read(),
    classifiers=[
       'Development Status :: 3 - Alpha',
@@ -326,3 +384,4 @@ setup(
    scripts=[  # TODO
    ],
 )
+

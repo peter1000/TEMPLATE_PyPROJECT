@@ -154,7 +154,7 @@ relbar_links_doc = [
 # modify logo per page: using: P-Sphinx Theme extension: sidebarlogo_perpag
 sidebarlogo_perpage_dict = {
    None: ['api', 'index', 'copyright'],
-   'TEMPLATE_PyPROJECT180_95background.png': ['main_cloud_theme', 'history'],
+   'TEMPLATE_PyPROJECT180_95background.png': ['RequiredSoftware', 'install', 'history', 'py-modindex', 'genindex'],
 }
 
 # The name for this set of Sphinx documents.  If None, it defaults to "<project> v<release> documentation".

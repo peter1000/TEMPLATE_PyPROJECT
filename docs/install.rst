@@ -49,11 +49,26 @@ The latest copy of this documentation should always be available at: `<http://pa
 If you wish to generate your own copy of the documentation, you will need to:
 
 #. Download the :mod:`!TEMPLATE_PyPROJECT` source.
-#. If not already installed - install `PSphinxTheme <https://github.com/peter1000/PSphinxTheme>`_ (1.0.0 or better)
+#. If not already installed - install `PSphinxTheme <https://github.com/peter1000/PSphinxTheme>`_ (1.1.1 or better)
 
    .. code-block:: sh
 
       $ pip3 install PSphinxTheme
 
-#. From the `TEMPLATE_PyPROJECT` source directory, run ``python3 setup.py build_sphinx -E``.
+#. From the `TEMPLATE_PyPROJECT` source directory, run:.
+
+   .. shell-example::
+
+      To build the documentation from source using ``setup.py``
+
+      .. code-block:: sh
+
+         $ python3 setup.py build_sphinx -E
+
+      To install from source using ``make``
+
+      .. code-block:: sh
+
+         $ make docs
+         
 #. Once Sphinx is finished, point a web browser to the file :samp:`{SOURCE}/build/sphinx/html/index.html`.

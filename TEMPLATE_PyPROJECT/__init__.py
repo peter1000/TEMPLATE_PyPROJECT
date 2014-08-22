@@ -14,7 +14,7 @@ SHORT_VERSION = __version__.rsplit('.', 1)[0]
 TESTED_HOST_OS = 'Linux Ubuntu 13.10'
 
 __project_name__ = 'TEMPLATE_PyPROJECT'
-__title__ = "TEMPLATE__OneLine_PyPROJECT_Description",  # use double quotes for this one
+__title__ = "TEMPLATE__OneLine_PyPROJECT_Description"
 __author__ = '`peter1000` https://github.com/peter1000'
 __copyright__ = '(c) 2014 ' + __author__
 __license__ = 'BSD 3-clause license: Consult LICENSE.rst'

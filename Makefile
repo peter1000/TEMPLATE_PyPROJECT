@@ -10,7 +10,7 @@ help:
 	@echo 'Please use: `make <target>` where <target> is one of'
 	@echo '  clean_docs              removes only: `build/sphinx`'
 	@echo '  clean                   clean: FILES:`.coverage, MANIFEST, *.pyc, *.pyo, *.pyd, *.o, *.orig` and DIRS: `*.__pycache__,  *.egg-info`'
-	@echo '  cleanall                clean PLUS remove: DIRS: `build, dist, cover, *._pyxbld` and FILES: `*.so, *.c` and cython annotate html'
+	@echo '  cleanall                clean PLUS remove: DIRS: `build, dist, cover, *._pyxbld` and FILES in MAIN_PACKAGE_PATH: `*.so, *.c` and cython annotate html'
 	@echo '  tests                   test the project build any extensions before'
 	@echo '  tests_cover             test with coverage report: dir cover:: with cython extensions before'
 	@echo '  docs                    build the docs for the project'
