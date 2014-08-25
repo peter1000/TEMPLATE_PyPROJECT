@@ -59,7 +59,7 @@ tests_cover:
 
 docs:
 	${PYTHON} setup.py clean --onlydocs
-	${PYTHON} setup.py build_sphinx
+	${PYTHON} setup.py build_sphinx -E
 	${PYTHON} setup.py clean
 	@echo -e '\n=== finished docs'
 

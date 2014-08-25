@@ -10,6 +10,7 @@ This is release |release| of a Python package named :mod:`!TEMPLATE_PyPROJECT`.
 :Author: peter1000
 :Github: https://github.com/peter1000
 
+
 Welcome
 =======
 
@@ -55,15 +56,16 @@ For *examples* see any files in the `TEMPLATE_PyPROJECT` source
 Online Resources
 ================
 
-   .. table::
-      :class: fullwidth
-      :column-alignment: lr
+.. rst-class:: html-plain-table
 
-      ================ ====================================================
-      Homepage:        `<https://github.com/peter1000/TEMPLATE_PyPROJECT>`_
-      Online Docs:     `<http://packages.python.org/TEMPLATE_PyPROJECT>`_
-      ---------------- ----------------------------------------------------
-      ---------------- ----------------------------------------------------
-      Download & PyPI: `<http://pypi.python.org/pypi/TEMPLATE_PyPROJECT>`_
-      Source:          `<https://github.com/peter1000/TEMPLATE_PyPROJECT>`_
-      ================ ====================================================
+   ================ ====================================================
+   Homepage:        `<https://github.com/peter1000/TEMPLATE_PyPROJECT>`_
+   Online Docs:     `<http://packages.python.org/TEMPLATE_PyPROJECT>`_
+   Download & PyPI: `<http://pypi.python.org/pypi/TEMPLATE_PyPROJECT>`_
+   Source:          `<https://github.com/peter1000/TEMPLATE_PyPROJECT>`_
+   ================ ====================================================
+
+Projects using TEMPLATE_PyPROJECT
+=================================
+
+Known `projects` which make use of: **TEMPLATE_PyPROJECT**

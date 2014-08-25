@@ -49,7 +49,7 @@ The latest copy of this documentation should always be available at: `<http://pa
 If you wish to generate your own copy of the documentation, you will need to:
 
 #. Download the :mod:`!TEMPLATE_PyPROJECT` source.
-#. If not already installed - install `PSphinxTheme <https://github.com/peter1000/PSphinxTheme>`_ (1.1.1 or better)
+#. If not already installed - install `PSphinxTheme <https://github.com/peter1000/PSphinxTheme>`_ (1.2.2 or better)
 
    .. code-block:: sh
 

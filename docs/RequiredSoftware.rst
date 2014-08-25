@@ -20,7 +20,7 @@ Required Software
 
    - `<http://pythonhosted.org/setuptools/>`_
 
-- Cython >= 0.21b1  (compiled from github 20140821)
+- Cython >= 0.21b1  (compiled from github 20140823)
 
    - `<http://cython.org/>`_
 
@@ -33,7 +33,7 @@ Required Software
 
    - `<http://nedbatchelder.com/code/coverage>`_
 
-- PSphinxTheme >=1.1.1  (for documentation generation)
+- PSphinxTheme >=1.2.2  (for documentation generation)
 
    - `<https://github.com/peter1000/PSphinxTheme>`_
 

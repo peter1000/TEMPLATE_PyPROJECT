@@ -55,4 +55,3 @@ radarmodel
 Parts of setup.py are based/copied from: https://github.com/ryanvolz/radarmodel (Copyright (c) 2014, Ryan Volz)
 
    Distributed under the terms of the BSD 3-Clause ("BSD New") license.
-

@@ -36,10 +36,10 @@ from os.path import (
 TEMPLATE_PyPROJECT_DIR_PATH = '/home/PycharmProjects/TEMPLATE_PyPROJECT'
 
 # New Project Name
-NEW_PROJECT_NAME = 'PyCalg'
+NEW_PROJECT_NAME = 'PySpeedIT'
 
 # New Project One Line Description: may not contain double quotes ``'``
-NEW_PROJECT_ONE_LINE_DESCRIPTION = "A python wrapper for common Computer Science data structures: `Calg - C Algorithms Library`."
+NEW_PROJECT_ONE_LINE_DESCRIPTION = "A Collection of: Benchmark-IT, Profile-IT, Line-Memory-Profile-IT, Disassemble-IT."
 
 # Any file to be skipped reading and replacing names: just the name: example: binary files like images
 SkipFileNames = [
