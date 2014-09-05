@@ -43,14 +43,21 @@ Introductory Materials
    history of current and past releases
 
 
+.. _code-usage-examples:
+
 Code & Usage Examples
 =====================
 
-For *examples* see any files in the `TEMPLATE_PyPROJECT` source
+:ref:`Speed-It Usage Example <speed-it-usage-example>`
+
+
+For more *examples* see any files in the `TEMPLATE_PyPROJECT source`
 
 - :samp:`{SOURCE}/Examples`
+
+   - especially the file: **run_speed_it.py**
+
 - :samp:`{SOURCE}/Tests`
-- :samp:`{SOURCE}/SpeedCheck`
 
 
 Online Resources

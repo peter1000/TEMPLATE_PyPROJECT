@@ -1,3 +1,6 @@
+excludefiles
+rmtree
+shutil
 perpag
 sidebarlogo
 cleanmost

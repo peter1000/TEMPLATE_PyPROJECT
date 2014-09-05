@@ -12,7 +12,7 @@ Required Software
 
 .. note:: other versions might also work but this are the once used for development
 
-- Python >= 3.4.1 (3.4.1+  compiled Aug  6 2014)
+- Python >= 3.4.1 (3.4.1+  compiled Aug 21 2014)
 
    - `<http://www.python.org/>`_
 
@@ -25,7 +25,7 @@ Required Software
    - `<http://cython.org/>`_
 
 
-- Nose >= 1.3.3  (for tests)
+- Nose >= 1.3.4  (for tests)
 
    - `<https://nose.readthedocs.org/>`_
 
@@ -33,7 +33,7 @@ Required Software
 
    - `<http://nedbatchelder.com/code/coverage>`_
 
-- PSphinxTheme >=1.2.2  (for documentation generation)
+- PSphinxTheme >=1.2.4  (for documentation generation)
 
    - `<https://github.com/peter1000/PSphinxTheme>`_
 
@@ -41,7 +41,7 @@ Required Software
 Additional Recommended Software Python
 ======================================
 
-- flake8 >= 2.2.2  (modular source code checker: pep8, pyflakes and Ned Batchelder's McCabe script)
+- flake8 >= 2.2.3  (modular source code checker: pep8, pyflakes and Ned Batchelder's McCabe script)
 
    - `<http://bitbucket.org/tarek/flake8>`_
 

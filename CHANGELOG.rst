@@ -5,7 +5,7 @@ Release History
 .. _whats-new:
 
 
-Version 1.0.0     2014-08-18
+Version 1.0.0     2014-09-05
 ============================
 
 Features:
@@ -16,7 +16,7 @@ Fixes/Other Changes:
 --------------------
 
 
-Project start 2014-08-18
+Project start 2014-09-04
 ========================
 
    - project start

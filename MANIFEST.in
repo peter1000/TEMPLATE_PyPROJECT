@@ -8,3 +8,5 @@ include setup.cfg
 include setup.py
 include versioneer.py
 include TEMPLATE_PyPROJECT/_version.py
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]

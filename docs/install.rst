@@ -41,6 +41,13 @@ Installing
 
    In the source root folder the Makefile has a number of helpful shortcut commands
 
+.. important:: Warnings at installation
+
+   .. code-block:: sh
+
+      $ warning: no previously-included files matching '__pycache__' found under directory '*'
+
+   This can be ignored `__pycache__` is excluded in the `MANIFEST.in` file
 
 Documentation
 =============
@@ -49,13 +56,13 @@ The latest copy of this documentation should always be available at: `<http://pa
 If you wish to generate your own copy of the documentation, you will need to:
 
 #. Download the :mod:`!TEMPLATE_PyPROJECT` source.
-#. If not already installed - install `PSphinxTheme <https://github.com/peter1000/PSphinxTheme>`_ (1.2.2 or better)
+#. If not already installed - install `PSphinxTheme <https://github.com/peter1000/PSphinxTheme>`_ (1.2.4 or better)
 
    .. code-block:: sh
 
       $ pip3 install PSphinxTheme
 
-#. From the `TEMPLATE_PyPROJECT` source directory, run:.
+#. From the `TEMPLATE_PyPROJECT` source directory, run:
 
    .. shell-example::
 
@@ -65,10 +72,10 @@ If you wish to generate your own copy of the documentation, you will need to:
 
          $ python3 setup.py build_sphinx -E
 
-      To install from source using ``make``
+      To build from source using ``make``
 
       .. code-block:: sh
 
          $ make docs
-         
+
 #. Once Sphinx is finished, point a web browser to the file :samp:`{SOURCE}/build/sphinx/html/index.html`.

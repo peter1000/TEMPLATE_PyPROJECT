@@ -1,27 +1,26 @@
 """
 setup / install / distribute
 """
-
-
 # ===========================================================================================================================
 # init script env -- ensure cwd = root of source dir
 # ===========================================================================================================================
 from copy import deepcopy
+from ctypes.util import find_library as ctypes_util_find_library
 from inspect import (
-   getfile,
-   currentframe
+   getfile as inspect_getfile,
+   currentframe as inspect_currentframe,
 )
-from shutil import rmtree
+from shutil import rmtree as shutil_rmtree
 from os import (
-   listdir,
+   listdir as os_listdir,
    remove as os_remove,
    walk as os_walk,
 )
 from os.path import (
-   abspath,
-   dirname,
+   abspath as path_abspath,
+   dirname as path_dirname,
    exists as path_exists,
-   isfile,
+   isfile as path_isfile,
    join as path_join,
    splitext as path_splitext,
 )
@@ -33,11 +32,12 @@ from sys import (
 )
 
 from setuptools import (
-   Command,
-   Extension,
-   find_packages,
-   setup,
+   Command as setuptools_Command,
+   Extension as setuptools_Extension,
+   find_packages as setuptools_find_packages,
+   setup as setuptools_setup,
 )
+
 # Warning : do not import the distutils extension before setuptools It does break the cythonize function calls
 # https://github.com/enthought/pyql/blob/master/setup.py
 from Cython.Build import cythonize
@@ -50,13 +50,13 @@ versioneer.VCS = 'git'
 versioneer.versionfile_source = 'TEMPLATE_PyPROJECT/_version.py'
 versioneer.versionfile_build = 'TEMPLATE_PyPROJECT/_version.py'
 versioneer.tag_prefix = ''  # tags are like 1.1.0
-versioneer.parentdir_prefix = 'TEMPLATE_PyPROJECT-'  # dirname like 'TEMPLATE_PyPROJECT-1.1.0'
+versioneer.parentdir_prefix = 'TEMPLATE_PyPROJECT-'  # path_dirname like 'TEMPLATE_PyPROJECT-1.1.0'
 
 _version = versioneer.get_version()
 
-SCRIPT_PATH = dirname(abspath(getfile(currentframe())))
+SCRIPT_PATH = path_dirname(path_abspath(inspect_getfile(inspect_currentframe())))
 PACKAGE_NAME = 'TEMPLATE_PyPROJECT'
-ROOT_PACKAGE_PATH = path_join(dirname(SCRIPT_PATH), PACKAGE_NAME)
+ROOT_PACKAGE_PATH = path_join(path_dirname(SCRIPT_PATH), PACKAGE_NAME)
 MAIN_PACKAGE_PATH = path_join(ROOT_PACKAGE_PATH, PACKAGE_NAME)
 
 from TEMPLATE_PyPROJECT import TESTED_HOST_OS
@@ -64,21 +64,21 @@ from TEMPLATE_PyPROJECT import TESTED_HOST_OS
 if sys_version_info[:2] < (3, 4) or 'linux' not in sys_platform:
    print('''
 
-TEMPLATE_PyPROJECT is only tested with Python 3.4.1 or higher:\n  current python version: {0:d}.{1:d}\n\n
+      TEMPLATE_PyPROJECT is only tested with Python 3.4.1 or higher:\n  current python version: {0:d}.{1:d}\n\n
 
-TESTED_HOST_OS: {3:}
-'''.format(sys_version_info[:2][0], sys_version_info[:2][1], TESTED_HOST_OS))
+      TESTED_HOST_OS: {3:}
+      '''.format(sys_version_info[:2][0], sys_version_info[:2][1], TESTED_HOST_OS))
 
 # check some untested options
 for option_temp in {'bdist_dumb', 'bdist_rpm', 'bdist_wininst', 'bdist_egg'}:
    if option_temp in sys_argv:
       print('''
 
-TESTED_HOST_OS you specified an untested option: <{}>\n\n
+         TESTED_HOST_OS you specified an untested option: <{}>\n\n
 
-   This might work or might not work correctly
+            This might work or might not work correctly
 
-'''.format(option_temp))
+         '''.format(option_temp))
 
 
 # ===========================================================================================================================
@@ -116,49 +116,73 @@ def no_cythonize(extensions):
    return dupextensions
 
 
-class CreateCythonCommand(Command):
-   """ Cythonize source files: taken from https://github.com/ryanvolz/radarmodel(Copyright (c) 2014, Ryan Volz)"""
+def check_release():
+   """ Check that only full git version (x.x or x.x.x) are used for 'register,
+   """
+   # noinspection PySetFunctionToLiteral
+   options_to_check = set({'register', 'upload', 'upload_docs'})
+   for option_ in options_to_check:
+      if option_ in sys_argv:
+         # Check
+         if '-' in _version:
+            sys_exit('''
 
-   description = 'Compile Cython code to C code'
+               === Error ===    check_release(): option_: <{}> in options_to_check: <{}>
 
-   user_options = [
-      ('timestamps', 't', 'Only compile newer source files.'),
-      ('annotate', 'a', 'Show a Cython"s code analysis as html.'),
-      ('directive=', 'X', 'Overrides a compiler directive.'),
-   ]
+               For a release: only full git version (x.x or x.x.x) are supported:
+                  You must commit any changes before and TAG the release.
+                     _version: <{}>.
 
-   # noinspection PyAttributeOutsideInit
-   def initialize_options(self):
-      self.timestamps = False
-      self.annotate = False
-      self.directive = ''
+               '''.format(option_, options_to_check, _version)
+            )
 
-   # noinspection PyAttributeOutsideInit
-   def finalize_options(self):
-      self.directive = parse_directive_list(self.directive)
 
-   def run(self):
-      cythonize(
-         ext_cython_modules,
-         include_path=cython_include_path,
-         force=(not self.timestamps),
-         annotate=self.annotate,
-         compiler_directives=self.directive
+def add_ext_cython_modules(_cython_extension_names):
+   """ Adds cython modules to the extensions
+
+   :param _cython_extension_names:
+
+      example::
+
+         # Cython extension names
+         cython_extension_name_sources = {
+            'TEMPLATE_PyPROJECT.utils': ['TEMPLATE_PyPROJECT/cython/utils.pyx'],
+         }
+
+         ext_cython_modules = add_ext_cython_modules(cython_extension_name_sources)
+
+   :return: _ext_cython_modules
+   """
+   _ext_cython_modules = []
+   for _ext_cython_name, _sources in _cython_extension_names.items():
+      ext_cython = setuptools_Extension(
+         _ext_cython_name,
+         sources=_sources,
+         include_dirs=INCLUDE_DIRS,
+         library_dirs=LIBRARY_DIRS,
+         libraries=DEPENDING_LIB_NAMES,
+         extra_compile_args=['-O3', '-ffast-math', '-fopenmp'],
+         extra_link_args=['-O3', '-ffast-math', '-fopenmp'],
       )
+      _ext_cython_modules.append(ext_cython)
+   return _ext_cython_modules
 
 
-class CleanCommand(Command):
+class CleanCommand(setuptools_Command):
    """ Custom distutils command to clean
    """
    description = '''Custom clean: FILES:`.coverage, MANIFEST, *.pyc, *.pyo, *.pyd, *.o, *.orig`
                     and DIRS: `*.__pycache__,  *.egg-info`'''
    user_options = [
       ('all', None,
-         '''remove also: DIRS: `build, dist, cover, *._pyxbld` and
-            FILES in MAIN_PACKAGE_PATH: `*.so, *.c` and cython annotate html'''
+      '''remove also: DIRS: `build, dist, cover, *._pyxbld` and
+         FILES in MAIN_PACKAGE_PATH: `*.so, *.c` and cython annotate html'''
       ),
       ('onlydocs', None,
-         'remove ONLY: `build/sphinx`'
+      'remove ONLY: `build/sphinx`'
+      ),
+      ('excludefiles', None,
+      'remove also any files in: exclude_files'
       ),
    ]
 
@@ -166,16 +190,15 @@ class CleanCommand(Command):
    def initialize_options(self):
       self.all = False
       self.onlydocs = False
-      self.onlyhtml = False
+      self.excludefiles = False
 
    def finalize_options(self):
       pass
 
    def run(self):
       need_normal_clean = True
-      exclude_files = [
-         'utils.c',
-      ]  # TODO
+      exclude_files = [  # TODO
+      ]
       remove_files = []
       remove_dirs = []
 
@@ -210,8 +233,15 @@ class CleanCommand(Command):
                   if tmp_ext == '.pyx':
                      # Check if we have a html with the same name
                      check_html_path = path_join(root, tmp_name + '.html')
-                     if isfile(check_html_path):
+                     if path_isfile(check_html_path):
                         remove_files.append(check_html_path)
+
+      # remove also: all files defined in exclude_files
+      if self.excludefiles:
+         for root, dirs_w, files_w in os_walk(MAIN_PACKAGE_PATH):
+            for file_ in files_w:
+               if file_ in exclude_files:
+                  remove_files.append(path_join(root, file_))
 
       # do the general clean
       if need_normal_clean:
@@ -236,46 +266,40 @@ class CleanCommand(Command):
                os_remove(file_)
          for dir_ in remove_dirs:
             if path_exists(dir_):
-               rmtree(dir_)
+               shutil_rmtree(dir_)
       except Exception:
          pass
 
 
-def check_release():
-   """ Check that only full git version (x.x or x.x.x) are used for 'register,
-   """
-   # noinspection PySetFunctionToLiteral
-   options_to_check = set({'register', 'upload', 'upload_docs'})
-   for option_ in options_to_check:
-      if option_ in sys_argv:
-         # Check
-         if '-' in _version:
-            sys_exit('''
+class CreateCythonCommand(setuptools_Command):
+   """ Cythonize source files: taken from https://github.com/ryanvolz/radarmodel(Copyright (c) 2014, Ryan Volz)"""
 
-               === Error ===    check_release(): option_: <{}> in options_to_check: <{}>
+   description = 'Compile Cython code to C code'
 
-               For a release: only full git version (x.x or x.x.x) are supported:
-                  You must commit any changes before and TAG the release.
-                     _version: <{}>.
+   user_options = [
+      ('timestamps', 't', 'Only compile newer source files.'),
+      ('annotate', 'a', 'Show a Cython"s code analysis as html.'),
+      ('directive=', 'X', 'Overrides a compiler directive.'),
+   ]
 
-               '''.format(option_, options_to_check, _version)
-            )
+   # noinspection PyAttributeOutsideInit
+   def initialize_options(self):
+      self.timestamps = False
+      self.annotate = False
+      self.directive = ''
 
+   # noinspection PyAttributeOutsideInit
+   def finalize_options(self):
+      self.directive = parse_directive_list(self.directive)
 
-def add_ext_cython_modules(_cython_extension_names):
-   _ext_cython_modules = []
-   for _ext_cython_name, _sources in _cython_extension_names.items():
-      ext_cython = Extension(
-         _ext_cython_name,
-         sources=_sources,
-         include_dirs=INCLUDE_DIRS,
-         library_dirs=LIBRARY_DIRS,
-         libraries=DEPENDING_LIB_NAMES,
-         extra_compile_args=['-O3', '-ffast-math', '-fopenmp'],
-         extra_link_args=['-O3', '-ffast-math', '-fopenmp'],
+   def run(self):
+      cythonize(
+         ext_cython_modules,
+         include_path=cython_include_path,
+         force=(not self.timestamps),
+         annotate=self.annotate,
+         compiler_directives=self.directive
       )
-      _ext_cython_modules.append(ext_cython)
-   return _ext_cython_modules
 
 
 # ===========================================================================================================================
@@ -298,6 +322,7 @@ INCLUDE_DIRS = SRC_LIBS_CODE_INCLUDE + [
    '/opt/include',
    '/opt/local/include',
 ]
+
 LIBRARY_DIRS = [
    '/usr/lib',
    '/usr/local/lib',
@@ -305,18 +330,30 @@ LIBRARY_DIRS = [
    '/opt/local/lib',
 ]
 
+
 # Check any required library
 if DEPENDING_LIB_NAMES:
    for depending_lib_name in DEPENDING_LIB_NAMES:
       for lib_search_dir in LIBRARY_DIRS:
          try:
-            files = listdir(lib_search_dir)
+            files = os_listdir(lib_search_dir)
             if any(depending_lib_name in file_ for file_ in files):
                break
          except OSError:
             pass
       else:
-         sys_exit('\n\nERROR: Cannot find library: <{}>\n\n LIBRARY_DIRS: <{}>'.format(depending_lib_name, LIBRARY_DIRS))
+         # try find_library
+         extra_info = ''
+         ctypes_found_libname = ctypes_util_find_library(depending_lib_name)
+         if ctypes_found_libname:
+            extra_info = 'ctypes.util.find_library` found it: do a manual search and add the correct `LIBRARY_DIRS`'
+         sys_exit('ERROR: Cannot find library: <{}>\n\nLIBRARY_DIRS: <{}>\n\n  ctypes_found_libname: <{}>\n    {}'.format(
+            depending_lib_name,
+            LIBRARY_DIRS,
+            ctypes_found_libname,
+            extra_info,
+         ))
+
 
 # some linux distros seem to require it: 'm'
 DEPENDING_LIB_NAMES.extend(['m'])
@@ -332,7 +369,8 @@ ext_modules = []
 cython_include_path = []  # include for cimport, different from compile include: see: CreateCythonCommand.cythonize
 # Cython extension names
 cython_extension_name_sources = {  # TODO
-   'TEMPLATE_PyPROJECT.utils': ['TEMPLATE_PyPROJECT/cython/utils.pyx'],
+   # 'TEMPLATE_PyPROJECT.utils': ['TEMPLATE_PyPROJECT/cython/utils.pyx'],
+   # 'TEMPLATE_PyPROJECT._version': ['TEMPLATE_PyPROJECT/cython/_version.pyx'],
 }
 
 ext_cython_modules = add_ext_cython_modules(cython_extension_name_sources)
@@ -349,22 +387,22 @@ check_release()
 
 cmdclass = versioneer.get_cmdclass()
 cmdclass.update({
-   'cython': CreateCythonCommand,
    'clean': CleanCommand,
+   'cython': CreateCythonCommand,
 })
 
 
 # ===========================================================================================================================
-# setup
+# setuptools_setup
 # ===========================================================================================================================
-setup(
+setuptools_setup(
    name='TEMPLATE_PyPROJECT',
    version=_version,
    author='peter1000',
    author_email='https://github.com/peter1000',
    url='https://github.com/peter1000/TEMPLATE_PyPROJECT',
    license='BSD-3-Clause',
-   packages=find_packages(),
+   packages=setuptools_find_packages(),
    include_package_data=True,
    install_requires=read_requires('requirements.txt'),
    use_2to3=False,
@@ -385,4 +423,3 @@ setup(
    scripts=[  # TODO
    ],
 )
-

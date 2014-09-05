@@ -1,11 +1,12 @@
 """
-===========================================
-TEMPLATE_PyPROJECT.utils - helper functions
-===========================================
+===============
+TEMPLATE_PyPROJECT.utils
+===============
 
 Overview
 ========
 This module defines a couple of helpers.
+
 
 Classes
 =========
@@ -16,7 +17,7 @@ Functions
 =========
 .. autofunction:: build_cython_extension
 
-
+.. autofunction:: format_time
 """
 from distutils.dist import Distribution
 from distutils.errors import DistutilsArgError
@@ -34,13 +35,15 @@ from TEMPLATE_PyPROJECT import TESTED_HOST_OS
 
 
 class Err(Exception):
-   """ Prints an own raised ProjectError
+   """ Prints an own raised Project Error
 
    :param error_type: (str) to specify mostly from which part the error comes: e.g. CONFIG
    :param info: (list) list of strings (text info) to print as message: each list item starts at a new line
    """
 
    def __init__(self, error_type, info):
+      """ Constructor.
+      """
       Exception.__init__(self, error_type, info)
       self.__error_type = error_type
       self.__info = '\n'.join(info)
@@ -91,7 +94,7 @@ def build_cython_extension(py_or_pyx_file_path, cython_force_rebuild=True):
    except DistutilsArgError as err:
       raise Err('utils.build_cython_extension', [
          'py_or_pyx_file_path: <{}>'.format(py_or_pyx_file_path),
-         '  DistutilsArgError: <{}>'.format(err),
+         '  DistutilsArgError: <{}>'.format(err)
       ])
 
    try:

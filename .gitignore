@@ -20,7 +20,7 @@ MANIFEST
 pycharm-debug.egg
 pycharm-debug.py
 .iws
-
+.idea/workspace.xml
 
 # Unit test / coverage reports
 .coverage
