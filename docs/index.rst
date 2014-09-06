@@ -48,9 +48,6 @@ Introductory Materials
 Code & Usage Examples
 =====================
 
-:ref:`Speed-It Usage Example <speed-it-usage-example>`
-
-
 For more *examples* see any files in the `TEMPLATE_PyPROJECT source`
 
 - :samp:`{SOURCE}/Examples`

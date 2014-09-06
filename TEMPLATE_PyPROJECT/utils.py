@@ -17,7 +17,6 @@ Functions
 =========
 .. autofunction:: build_cython_extension
 
-.. autofunction:: format_time
 """
 from distutils.dist import Distribution
 from distutils.errors import DistutilsArgError

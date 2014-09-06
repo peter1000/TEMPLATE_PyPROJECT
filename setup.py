@@ -417,9 +417,9 @@ setuptools_setup(
       'Operating System :: POSIX :: Linux',
       'Programming Language :: Python :: 3',
       'Topic :: Documentation',
-      'Topic :: Software Development :: Documentation',  # TODO
+      'Topic :: Software Development :: ???',  # TODO
    ],
-   keywords='python sphinx theme doc extension',  # TODO
+   keywords='python :: ???',  # ',  # TODO
    scripts=[  # TODO
    ],
 )

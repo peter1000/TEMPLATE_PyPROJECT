@@ -5,6 +5,7 @@ from sys import exit as sys_exit
 
 # Import speed_it
 try:
+   # noinspection PyPackageRequirements,PyUnresolvedReferences
    from PySpeedIT.speed_it import speed_it
 except ImportError as err:
    sys_exit('''

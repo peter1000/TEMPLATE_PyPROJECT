@@ -39,7 +39,7 @@ TEMPLATE_PyPROJECT_DIR_PATH = '/home/PycharmProjects/TEMPLATE_PyPROJECT'
 NEW_PROJECT_NAME = 'XXX'
 
 # New Project One Line Description: may not contain double quotes ``"``
-NEW_PROJECT_ONE_LINE_DESCRIPTION = "XXX Descripton blah blah"
+NEW_PROJECT_ONE_LINE_DESCRIPTION = "XXX Description blah blah."
 
 # Any file to be skipped reading and replacing names: just the name: example: binary files like images
 SkipFileNames = [
