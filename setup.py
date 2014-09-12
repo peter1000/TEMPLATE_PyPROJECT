@@ -172,10 +172,10 @@ class CleanCommand(setuptools_Command):
    """ Custom distutils command to clean
    """
    description = '''Custom clean: FILES:`.coverage, MANIFEST, *.pyc, *.pyo, *.pyd, *.o, *.orig`
-                    and DIRS: `*.__pycache__,  *.egg-info`'''
+                    and DIRS: `*.__pycache__`'''
    user_options = [
       ('all', None,
-      '''remove also: DIRS: `build, dist, cover, *._pyxbld` and
+      '''remove also: DIRS: `build, dist, cover, *._pyxbld, *.egg-info` and
          FILES in MAIN_PACKAGE_PATH: `*.so, *.c` and cython annotate html'''
       ),
       ('onlydocs', None,
@@ -209,7 +209,7 @@ class CleanCommand(setuptools_Command):
          if path_exists(dir_path):
             remove_dirs.append(dir_path)
 
-      # remove also: DIRS: `build, dist, cover, *.egg-info, *._pyxbld`
+      # remove also: DIRS: `build, dist, cover, *._pyxbld, *.egg-info`
       # and FILES in MAIN_PACKAGE_PATH: `*.so, *.c` and cython annotate html
       if self.all:
          need_normal_clean = True
@@ -219,7 +219,7 @@ class CleanCommand(setuptools_Command):
                remove_dirs.append(dir_path)
          for root, dirs_w, files_w in os_walk(ROOT_PACKAGE_PATH):
             for dir_ in dirs_w:
-               if '_pyxbld' in dir_:
+               if '_pyxbld' in dir_ or 'egg-info' in dir_:
                   remove_dirs.append(path_join(root, dir_))
 
          # remove FILES in MAIN_PACKAGE_PATH: `*.so, *.c` and cython annotate html
@@ -255,7 +255,7 @@ class CleanCommand(setuptools_Command):
                   if path_splitext(file_)[-1] in {'.pyc', '.pyo', '.pyd', '.o', '.orig'}:
                      remove_files.append(path_join(root, file_))
             for dir_ in dirs_w:
-               if '__pycache__' in dir_ or 'egg-info' in dir_:
+               if '__pycache__' in dir_:
                   remove_dirs.append(path_join(root, dir_))
 
       # REMOVE ALL SELECTED

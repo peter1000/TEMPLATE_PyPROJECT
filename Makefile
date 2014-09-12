@@ -9,8 +9,8 @@ PACKAGE = TEMPLATE_PyPROJECT
 help:
 	@echo 'Please use: `make <target>` where <target> is one of'
 	@echo '  clean_docs                 removes only: `build/sphinx`'
-	@echo '  clean                      clean: FILES:`.coverage, MANIFEST, *.pyc, *.pyo, *.pyd, *.o, *.orig` and DIRS: `*.__pycache__,  *.egg-info`'
-	@echo '  cleanall                   clean PLUS remove: DIRS: `build, dist, cover, *._pyxbld` and FILES in MAIN_PACKAGE_PATH: `*.so, *.c` and cython annotate html'
+	@echo '  clean                      clean: FILES:`.coverage, MANIFEST, *.pyc, *.pyo, *.pyd, *.o, *.orig` and DIRS: `*.__pycache__`'
+	@echo '  cleanall                   clean PLUS remove: DIRS: `build, dist, cover, *._pyxbld, *.egg-info` and FILES in MAIN_PACKAGE_PATH: `*.so, *.c` and cython annotate html'
 	@echo '  clean_force_exclude_files  clean PLUS remove: any FILES in 'setup.py' `CleanCommand.exclude_files`'
 	@echo '  tests                      test the project build any extensions before'
 	@echo '  tests_cover                test with coverage report: dir cover:: with cython extensions before'
@@ -45,7 +45,7 @@ clean_force_exclude_files:
 	@echo -e '\n=== finished clean_force_exclude_files'
 
 tests:
-	${PYTHON} setup.py clean 
+	${PYTHON} setup.py clean
 	${PYTHON} setup.py cython --timestamps
 	${PYTHON} setup.py build_ext --inplace
 	${PYTHON} setup.py clean
@@ -54,7 +54,7 @@ tests:
 	@echo -e '\n=== finished tests'
 
 tests_cover:
-	${PYTHON} setup.py clean 
+	${PYTHON} setup.py clean
 	${PYTHON} setup.py cython --timestamps
 	${PYTHON} setup.py build_ext --inplace
 	${PYTHON} setup.py clean
@@ -69,7 +69,7 @@ docs:
 	@echo -e '\n=== finished docs'
 
 build_ext:
-	${PYTHON} setup.py clean 
+	${PYTHON} setup.py clean
 	${PYTHON} setup.py cython --timestamps
 	${PYTHON} setup.py build_ext --inplace
 	${PYTHON} setup.py clean
@@ -86,7 +86,7 @@ build_force:
 	${PYTHON} setup.py clean --all
 	${PYTHON} setup.py cython
 	${PYTHON} setup.py build_ext --inplace --force
-	${PYTHON} setup.py build --force 
+	${PYTHON} setup.py build --force
 	${PYTHON} setup.py clean
 	@echo -e '\n=== finished build_force'
 
@@ -94,8 +94,8 @@ install:
 	${PYTHON} setup.py clean --all
 	${PYTHON} setup.py cython
 	${PYTHON} setup.py build_ext --inplace --force
-	${PYTHON} setup.py build --force 
-	${PYTHON} setup.py install 
+	${PYTHON} setup.py build --force
+	${PYTHON} setup.py install
 	${PYTHON} setup.py clean
 	@echo -e '\n=== finished install'
 
