@@ -42,18 +42,17 @@ If you wish to generate your own copy of the documentation, you will need to:
    {SOURCE}/build/sphinx/html/index.html
 
 
-Projects using TEMPLATE_PyPROJECT
-=================================
-
-`projects` which make use of: **TEMPLATE_PyPROJECT**
-
-
-
 Online Resources
 ================
 - Docs:       http://packages.python.org/TEMPLATE_PyPROJECT
 - PyPI:       http://pypi.python.org/pypi/TEMPLATE_PyPROJECT
 - Source:     https://github.com/peter1000/TEMPLATE_PyPROJECT
+
+
+Projects using TEMPLATE_PyPROJECT
+=================================
+
+`projects` which make use of: **TEMPLATE_PyPROJECT**
 
 |
 |
