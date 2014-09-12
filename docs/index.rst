@@ -48,13 +48,13 @@ Introductory Materials
 Code & Usage Examples
 =====================
 
-For more *examples* see any files in the `TEMPLATE_PyPROJECT source`
+For more *examples* see any files in the `TEMPLATE_PyPROJECT source` (not all projects might have all of these folders).
 
 - :samp:`{SOURCE}/Examples`
 
-   - especially the file: **run_speed_it.py**
-
 - :samp:`{SOURCE}/Tests`
+
+- :samp:`{SOURCE}/SpeedIT`
 
 
 Online Resources
@@ -68,6 +68,7 @@ Online Resources
    Download & PyPI: `<http://pypi.python.org/pypi/TEMPLATE_PyPROJECT>`_
    Source:          `<https://github.com/peter1000/TEMPLATE_PyPROJECT>`_
    ================ ====================================================
+
 
 Projects using TEMPLATE_PyPROJECT
 =================================
