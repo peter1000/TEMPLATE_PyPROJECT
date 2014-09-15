@@ -41,7 +41,7 @@ Required Software
 Additional Recommended Software Python
 ======================================
 
-- PySpeedIT >=1.0.3  (A collection of: Benchmark-IT, Profile-IT, Line-Memory-Profile-IT, Disassemble-IT.)
+- PySpeedIT >=1.0.4  (A collection of: Benchmark-IT, Profile-IT, Line-Memory-Profile-IT, Disassemble-IT.)
 
    - `<https://github.com/peter1000/PySpeedIT>`_
    

@@ -10,7 +10,7 @@ from inspect import (
    currentframe as inspect_currentframe,
 )
 from os import (
-   walk,
+   walk as os_walk,
    remove as os_remove,
 )
 from os.path import (
@@ -41,7 +41,7 @@ def test_all_imports_py():
    """
    print('::: TEST: test_all_imports_py()')
    all_modules_path = []
-   for root, dirnames, filenames in walk(ROOT_PACKAGE_PATH):
+   for root, dirnames, filenames in os_walk(ROOT_PACKAGE_PATH):
       all_modules_path.extend(glob(root + '/*.py'))
    for py_module_file_path in all_modules_path:
       module_filename = path_basename(py_module_file_path)
@@ -58,7 +58,7 @@ def test_all_imports_pyx():
    remove_files = []
    remove_dirs = []
    all_modules_path = []
-   for root, dirnames, filenames in walk(ROOT_PACKAGE_PATH):
+   for root, dirnames, filenames in os_walk(ROOT_PACKAGE_PATH):
       all_modules_path.extend(glob(root + '/*.pyx'))
    for pyx_module_file_path in all_modules_path:
       module_filename = path_basename(pyx_module_file_path)
@@ -96,7 +96,7 @@ def test_all_py_to_cython_compiled():
    remove_dirs = []
 
    all_modules_path = []
-   for root, dirnames, filenames in walk(ROOT_PACKAGE_PATH):
+   for root, dirnames, filenames in os_walk(ROOT_PACKAGE_PATH):
       all_modules_path.extend(glob(root + '/*.py'))
    for py_module_file_path in all_modules_path:
       module_filename = path_basename(py_module_file_path)
