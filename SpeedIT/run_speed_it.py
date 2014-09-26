@@ -9,7 +9,7 @@ try:
    from PySpeedIT.speed_it import speed_it
 except ImportError as err:
    sys_exit('''
-      Example SpeedTest: Can not run speed_it. This module needs the package <PySpeedIT >= 1.2.4> to be installed: <{}>
+      Example SpeedTest: Can not run speed_it. This module needs the package <PySpeedIT >= 1.0.6> to be installed: <{}>
       '''.format(err)
    )
 
