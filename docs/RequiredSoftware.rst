@@ -12,11 +12,11 @@ Required Software
 
 .. note:: other versions might also work but this are the once used for development
 
-- Python >= 3.4.1 (3.4.1+  compiled 20140912)
+- Python >= 3.4.2rc1+ (3.4.2rc1+  compiled 20140927)
 
    - `<http://www.python.org/>`_
 
-- setuptools >= 5.7
+- setuptools >= 6.0.1
 
    - `<http://pythonhosted.org/setuptools/>`_
 
@@ -41,7 +41,7 @@ Required Software
 Additional Recommended Software Python
 ======================================
 
-- PySpeedIT >=1.0.4  (A collection of: Benchmark-IT, Profile-IT, Line-Memory-Profile-IT, Disassemble-IT.)
+- PySpeedIT >=1.0.6  (A collection of: Benchmark-IT, Profile-IT, Line-Memory-Profile-IT, Disassemble-IT.)
 
    - `<https://github.com/peter1000/PySpeedIT>`_
    
@@ -53,7 +53,7 @@ Additional Recommended Software Python
 
    - `<http://www.pylint.org/>`_
 
-- psutil >= 2.1.1  (retrieving information on running processes and system utilization (CPU, memory, disks, network))
+- psutil >= 2.1.2  (retrieving information on running processes and system utilization (CPU, memory, disks, network))
 
    - `<http://code.google.com/p/psutil/>`_
 
