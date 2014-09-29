@@ -33,7 +33,7 @@ Required Software
 
    - `<http://nedbatchelder.com/code/coverage>`_
 
-- PSphinxTheme >=1.3.3  (for documentation generation)
+- PSphinxTheme >=1.3.4  (for documentation generation)
 
    - `<https://github.com/peter1000/PSphinxTheme>`_
 
