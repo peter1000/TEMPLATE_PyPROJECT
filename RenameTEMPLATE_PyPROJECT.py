@@ -22,8 +22,8 @@ from os import (
 )
 from os.path import (
    basename as path_basename,
-   dirname,
-   isdir,
+   dirname as path_dirname,
+   isdir as path_isdir,
    join as path_join,
 )
 
@@ -74,7 +74,7 @@ OrigTemplateName = 'TEMPLATE_PyPROJECT'
 OrigTemplateOneLineDescription = 'TEMPLATE__OneLine_PyPROJECT_Description'
 
 # check that the TEMPLATE_PyPROJECT_DIR_PATH dir exist
-if not isdir(TEMPLATE_PyPROJECT_DIR_PATH):
+if not path_isdir(TEMPLATE_PyPROJECT_DIR_PATH):
    # noinspection PyPep8
    raise Exception('\n\n\nATTENTION::::::The Specified TEMPLATE_PyPROJECT_DIR_PATH Dir does not exist:\n<{}>\n\n'.format(TEMPLATE_PyPROJECT_DIR_PATH))
 
@@ -124,7 +124,7 @@ for root, dir_ in DirList:
 
 
 # FINALLY: rename the Root folder
-NewPathName = '{}/{}'.format(dirname(TEMPLATE_PyPROJECT_DIR_PATH), NEW_PROJECT_NAME)
+NewPathName = '{}/{}'.format(path_dirname(TEMPLATE_PyPROJECT_DIR_PATH), NEW_PROJECT_NAME)
 os_rename(TEMPLATE_PyPROJECT_DIR_PATH, NewPathName)
 
 print('\nFINISHED....\n')
