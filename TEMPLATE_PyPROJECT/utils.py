@@ -1,7 +1,7 @@
 """
-===============
+========================
 TEMPLATE_PyPROJECT.utils
-===============
+========================
 
 Overview
 ========
@@ -9,7 +9,7 @@ This module defines a couple of helpers.
 
 
 Classes
-=========
+=======
 .. autoclass:: Err
 
 

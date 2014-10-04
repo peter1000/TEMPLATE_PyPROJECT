@@ -12,7 +12,7 @@ Required Software
 
 .. note:: other versions might also work but this are the once used for development
 
-- Python >= 3.4.2rc1+ (3.4.2rc1+  compiled 20140927)
+- Python >= 3.4.2rc1+ (3.4.2rc1+  compiled 20141004)
 
    - `<http://www.python.org/>`_
 
@@ -24,6 +24,7 @@ Required Software
 
    - `<http://cython.org/>`_
 
+|
 
 - nose >= 1.3.4  (for tests)
 
@@ -33,7 +34,7 @@ Required Software
 
    - `<http://nedbatchelder.com/code/coverage>`_
 
-- PSphinxTheme >=2.0.0  (for documentation generation)
+- PSphinxTheme >=2.0.1  (for documentation generation)
 
    - `<https://github.com/peter1000/PSphinxTheme>`_
 
@@ -41,10 +42,14 @@ Required Software
 Additional Recommended Software Python
 ======================================
 
-- PySpeedIT >=1.0.7  (A collection of: Benchmark-IT, Profile-IT, Line-Memory-Profile-IT, Disassemble-IT.)
+- LCONF >= 6.1.1  (L(ight) CONF(iguration): A simple human-readable data serialization format for dynamic configuration.)
+
+   - `<https://github.com/peter1000/LCONF>`_
+
+- PySpeedIT >=1.0.8  (A collection of: Benchmark-IT, Profile-IT, Line-Memory-Profile-IT, Disassemble-IT.)
 
    - `<https://github.com/peter1000/PySpeedIT>`_
-   
+
 - flake8 >= 2.2.3  (modular source code checker: pep8, pyflakes and Ned Batchelder's McCabe script)
 
    - `<http://bitbucket.org/tarek/flake8>`_
@@ -53,7 +58,7 @@ Additional Recommended Software Python
 
    - `<http://www.pylint.org/>`_
 
-- psutil >= 2.1.2  (retrieving information on running processes and system utilization (CPU, memory, disks, network))
+- psutil >= 2.1.3  (retrieving information on running processes and system utilization (CPU, memory, disks, network))
 
    - `<http://code.google.com/p/psutil/>`_
 
@@ -66,6 +71,6 @@ Additional Recommended Software Python
 Other Recommended Software
 ==========================
 
-- PyCharm Community Edition >= 4.0 138.SNAPSHOT (compiled 20140912)  (Excellent IDE for the Python language)
+- PyCharm Community Edition >= 4.0 138.SNAPSHOT (compiled 20141004)  (Excellent IDE for the Python language)
 
    - `<http://www.jetbrains.com/pycharm/>`_
