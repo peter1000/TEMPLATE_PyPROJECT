@@ -12,11 +12,11 @@ Required Software
 
 .. note:: other versions might also work but this are the once used for development
 
-- Python >= 3.4.2rc1+ (3.4.2rc1+  compiled 20141004)
+- Python >= 3.4.2+ (3.4.2+  compiled 20141011)
 
    - `<http://www.python.org/>`_
 
-- setuptools >= 6.0.2
+- setuptools >= 6.1
 
    - `<http://pythonhosted.org/setuptools/>`_
 
@@ -34,7 +34,7 @@ Required Software
 
    - `<http://nedbatchelder.com/code/coverage>`_
 
-- PSphinxTheme >=2.0.1  (for documentation generation)
+- PSphinxTheme >= 2.0.3  (for documentation generation)
 
    - `<https://github.com/peter1000/PSphinxTheme>`_
 
@@ -42,7 +42,7 @@ Required Software
 Additional Recommended Software Python
 ======================================
 
-- LCONF >= 6.1.1  (L(ight) CONF(iguration): A simple human-readable data serialization format for dynamic configuration.)
+- LCONF >= 7.0.0  (L(ight) CONF(iguration): A simple human-readable data serialization format for dynamic configuration.)
 
    - `<https://github.com/peter1000/LCONF>`_
 
@@ -50,7 +50,7 @@ Additional Recommended Software Python
 
    - `<https://github.com/peter1000/PySpeedIT>`_
 
-- flake8 >= 2.2.3  (modular source code checker: pep8, pyflakes and Ned Batchelder's McCabe script)
+- flake8 >= 2.2.4  (modular source code checker: pep8, pyflakes and Ned Batchelder's McCabe script)
 
    - `<http://bitbucket.org/tarek/flake8>`_
 
